@@ -1,9 +1,8 @@
-# Python WebSocket Server (server.py)
 import asyncio
 import websockets
 import json
-import base64
 import datetime
+import os
 
 CONNECTED_CLIENTS = set()
 
@@ -43,8 +42,9 @@ def timestamp():
     return datetime.datetime.now().strftime('%H:%M:%S')
 
 async def main():
-    print(f"[{timestamp()}] Server starting on ws://0.0.0.0:4045")
-    async with websockets.serve(audio_server, "0.0.0.0", 8080):
+    port = int(os.environ.get("PORT", 8080))
+    print(f"[{timestamp()}] Server starting on ws://0.0.0.0:{port}")
+    async with websockets.serve(audio_server, "0.0.0.0", port):
         await asyncio.Future()  # Run forever
 
 if __name__ == "__main__":
